@@ -1,8 +1,32 @@
+"use client";
+
+import { useState, useEffect, useRef } from "react";
+
+import * as THREE from "three";
+
+import WAVES from "vanta/dist/vanta.waves.min";
+
 import "./About.css";
 
 export default function About() {
+  const [vantaEffect, setVantaEffect] = useState<any>(null);
+  const myRef = useRef(null);
+  useEffect(() => {
+    if (!vantaEffect) {
+      setVantaEffect(
+        WAVES({
+          el: myRef.current,
+          THREE,
+        })
+      );
+    }
+    return () => {
+      if (vantaEffect) vantaEffect.destroy();
+    };
+  }, [vantaEffect]);
+
   return (
-    <section id="about">
+    <section id="about" ref={myRef}>
       <div className="about-container">
         <b>About Me</b>
         <h1>

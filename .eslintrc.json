@@ -1,4 +1,12 @@
 {
   "extends": ["next/core-web-vitals", "next/typescript"],
-  "rules": { "react/no-unescaped-entities": 0 }
+  "rules": { "react/no-unescaped-entities": 0 },
+  "overrides": [
+    {
+      "files": ["*.tsx"],
+      "rules": {
+        "@typescript-eslint/no-explicit-any": "off"
+      }
+    }
+  ]
 }

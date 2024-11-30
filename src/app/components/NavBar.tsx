@@ -42,7 +42,7 @@ export default function NavBar() {
               handleLinkClick(link); // Call the scroll function
             }
           }}
-          className="p-5"
+          className="text-lg p-5 font-black"
         >
           {children}
         </a>
