@@ -1,17 +1,16 @@
 import type { Metadata } from "next";
-import localFont from "next/font/local";
 import "./globals.css";
-import NavBar from "./components/NavBar";
+import { Figtree, Azeret_Mono } from "next/font/google";
+import NavBar from "@/components/common/NavBar";
 
-const geistSans = localFont({
-  src: "./fonts/GeistVF.woff",
-  variable: "--font-geist-sans",
-  weight: "100 900",
+const figtree = Figtree({
+  subsets: ["latin"],
+  variable: "--font-figtree",
 });
-const geistMono = localFont({
-  src: "./fonts/GeistMonoVF.woff",
-  variable: "--font-geist-mono",
-  weight: "100 900",
+
+const azeret = Azeret_Mono({
+  subsets: ["latin"],
+  variable: "--font-azeret",
 });
 
 export const metadata: Metadata = {
@@ -26,13 +25,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
-        <div>
-          <NavBar />
-          {children}
-        </div>
+      <body className={`${figtree.variable} ${azeret.variable} antialiased`}>
+        <NavBar />
+        <div>{children}</div>
       </body>
     </html>
   );

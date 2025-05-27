@@ -1,13 +1,9 @@
-import Hero from "./pages/Hero/Hero";
-import About from "./pages/About/About";
-import Projects from "./pages/Projects/Projects";
+import Hero from "@/components/home/Hero";
 
 export default function Index() {
   return (
     <div className="flex flex-col">
       <Hero />
-      <About />
-      <Projects />
     </div>
   );
 }
