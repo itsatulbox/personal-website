@@ -1,5 +1,6 @@
 "use client";
 
+import { useTheme } from "next-themes";
 import { useEffect, useState } from "react";
 
 export default function NavBar() {
@@ -8,10 +9,10 @@ export default function NavBar() {
     children: React.ReactNode;
   };
 
-  const [isLight, setIsLight] = useState(false);
-  useEffect(() => {
-    document.documentElement.classList.toggle("light", isLight);
-  }, [isLight]);
+  const [mounted, setMounted] = useState(false);
+  const { setTheme, resolvedTheme } = useTheme();
+
+  useEffect(() => setMounted(true), []);
 
   const NavItem = ({ href, children }: NavItemProps) => {
     const isExternal = href.includes("https://");
@@ -28,6 +29,8 @@ export default function NavBar() {
     );
   };
 
+  if (!mounted) return null;
+
   return (
     <div className="fixed flex flex-row w-full justify-between z-10 px-10">
       <NavItem href="/">A_K.</NavItem>
@@ -38,7 +41,7 @@ export default function NavBar() {
         <NavItem href="/leetcode">leetcode</NavItem>
       </div>
       <button
-        onClick={() => setIsLight(!isLight)}
+        onClick={() => setTheme(resolvedTheme === "dark" ? "light" : "dark")}
         className="bg-offShade p-2 m-3 rounded-md flex"
       >
         <svg
@@ -46,7 +49,7 @@ export default function NavBar() {
           viewBox="0 284.8 12.7 11.2"
           width="24"
           height="24"
-          fill={isLight ? "#000000" : "#ffffff"}
+          fill="currentColor"
           stroke="none"
           className="block"
         >

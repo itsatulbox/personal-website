@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import { Figtree, Azeret_Mono } from "next/font/google";
 import NavBar from "@/components/common/NavBar";
+import { Providers } from "./providers";
 
 const figtree = Figtree({
   subsets: ["latin"],
@@ -24,10 +25,12 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <body className={`${figtree.variable} ${azeret.variable} antialiased`}>
-        <NavBar />
-        <div>{children}</div>
+        <Providers>
+          <NavBar />
+          <div>{children}</div>
+        </Providers>
       </body>
     </html>
   );

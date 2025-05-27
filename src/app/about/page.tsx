@@ -6,15 +6,16 @@ export default function About() {
       <div className="flex flex-col gap-5">
         <h2 className="text-3xl font-bold">About Me</h2>
         <p className="leading-relaxed max-w-3xl">
-          I’m Atul and I am currently in my penultimate year of a Bachelors of
-          Engineering (Honours) in Software Engineering at the University of
-          Auckland. At university, I am trying my best to build a solid
-          foundation in software development. So far I have worked on frontend
-          development using React and backend systems with Python and Java. I
-          have also worked on iOS development using Swift and SwiftUI during my
-          time at Alimetry! Recently, I’ve been motivated to do the daily
-          LeetCode and so a blog about my non-optimal approach to these will be
-          out soon (inspired by&nbsp;
+          I’m Atul and I am currently an undergraduate student in my penultimate
+          year of a Bachelor of Engineering (Honours) degree specialising in
+          Software Engineering at the University of Auckland. At university, I
+          am trying my best to build a solid foundation in software development.
+          So far I have worked on frontend development using React and backend
+          systems with Python and Java. I have also worked on iOS development
+          using Swift and SwiftUI during my time at Alimetry! Recently, I’ve
+          been motivated to do the daily LeetCode and so a blog about my
+          non-optimal approaches to these problems will be out soon (inspired
+          by&nbsp;
           <a
             href="https://ericzheng.nz/"
             target="_blank"
