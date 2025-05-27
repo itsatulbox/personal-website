@@ -1,44 +1,47 @@
 "use client";
 
 import { useTheme } from "next-themes";
+import Link from "next/link";
 import { useEffect, useState } from "react";
 
 export default function NavBar() {
-  type NavItemProps = {
-    href: string;
-    children: React.ReactNode;
-  };
-
   const [mounted, setMounted] = useState(false);
   const { setTheme, resolvedTheme } = useTheme();
 
   useEffect(() => setMounted(true), []);
 
-  const NavItem = ({ href, children }: NavItemProps) => {
-    const isExternal = href.includes("https://");
-
-    return (
-      <a
-        href={href}
-        className="bg-offShade text-[1rem] p-2 m-3 rounded-lg"
-        target={isExternal ? "_blank" : undefined}
-        rel={isExternal ? "noopener noreferrer" : undefined}
-      >
-        {children}
-      </a>
-    );
-  };
-
   if (!mounted) return null;
 
   return (
     <div className="fixed flex flex-row w-full justify-between z-10 px-10">
-      <NavItem href="/">A_K.</NavItem>
+      <Link
+        href="/"
+        className="bg-offShade text-[1.5rem] font-extrabold py-1 px-3 m-2 rounded-lg"
+      >
+        A_K.
+      </Link>
       <div className="flex flex-row justify-evenly">
-        <NavItem href="/">home</NavItem>
-        <NavItem href="/about">about me</NavItem>
-        <NavItem href="/projects">projects</NavItem>
-        <NavItem href="/leetcode">leetcode</NavItem>
+        <Link href="/" className="bg-offShade text-[1rem] p-2 m-3 rounded-lg">
+          home
+        </Link>
+        <Link
+          href="/about"
+          className="bg-offShade text-[1rem] p-2 m-3 rounded-lg"
+        >
+          about me
+        </Link>
+        <Link
+          href="/projects"
+          className="bg-offShade text-[1rem] p-2 m-3 rounded-lg"
+        >
+          projects
+        </Link>
+        <Link
+          href="/leetcode"
+          className="bg-offShade text-[1rem] p-2 m-3 rounded-lg"
+        >
+          leetcode
+        </Link>
       </div>
       <button
         onClick={() => setTheme(resolvedTheme === "dark" ? "light" : "dark")}

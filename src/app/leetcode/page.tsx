@@ -1,8 +1,8 @@
 export default function LeetCode() {
   return (
-    <section className="justify-center">
-      <b>WIP</b>
-      <p>Come back soon!</p>
-    </section>
+    <div className="flex flex-col items-center w-screen min-h-screen justify-center">
+      <b className="text-3xl">WIP</b>
+      <p>Coming soon!</p>
+    </div>
   );
 }
