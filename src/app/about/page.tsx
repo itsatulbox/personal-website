@@ -2,7 +2,7 @@
 
 export default function About() {
   return (
-    <div className="flex flex-col gap-5 w-screen min-h-screen items-center justify-center">
+    <div className="flex flex-col pt-20 pb-10 gap-5 w-screen min-h-screen items-center justify-center px-5">
       <h2 className="text-3xl font-bold">About Me</h2>
       <p className="leading-relaxed max-w-3xl">
         I’m Atul and I am currently an undergraduate student in my penultimate

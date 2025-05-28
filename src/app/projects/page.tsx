@@ -23,10 +23,10 @@ export default function Projects() {
     description,
   }: ProjectCardProps) => {
     return (
-      <div className="flex flex-col items-center">
+      <div className="flex flex-col pt-20 items-center">
         <div className="grid grid-cols-2 gap-4">
           {images.map((img, i) => (
-            <div key={i} className="relative w-[20vw] aspect-[5/3]">
+            <div key={i} className="relative w-[40vw] md:w-[20vw] aspect-[5/3]">
               <Image
                 src={img}
                 alt={`Project image ${i}`}
@@ -37,15 +37,15 @@ export default function Projects() {
           ))}
         </div>
         <p className="mt-6 text-center text-xl font-bold">{title}</p>
-        <p className="font-semibold">{tech}</p>
-        <p className="w-[40vw]">{description}</p>
+        <p className="font-semibold text-center">{tech}</p>
+        <p className="md:w-[40vw]">{description}</p>
       </div>
     );
   };
 
   return (
     <div className="w-screen min-h-screen flex items-center justify-center p-12">
-      <div className="grid grid-cols-2 md:grid-cols-2 gap-12">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
         <ProjectCard
           images={[guessWho1, guessWho2, guessWho3, guessWho4]}
           title="Jewel Heist"
