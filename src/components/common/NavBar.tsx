@@ -18,9 +18,9 @@ export default function NavBar() {
       <nav className="flex items-center fixed w-full justify-between z-10 px-5 lg:px-8 xl:px-[8%] py-4">
         <Link
           href="/"
-          className="bg-offShade text-[1.5rem] font-extrabold py-1 px-3 m-2 rounded-lg"
+          className="bg-offShade text-[1.25rem] font-ibm py-1 px-3 m-2 rounded-lg"
         >
-          A_K.
+          ~$ ak
         </Link>
         <ul className="hidden md:flex gap-6 lg:gap-8 justify-evenly">
           <li>
