@@ -15,6 +15,7 @@ const azeret = Azeret_Mono({
 });
 
 const ibm = IBM_Plex_Mono({
+  subsets: ["latin"],
   variable: "--font-ibm",
   weight: "600",
 });
