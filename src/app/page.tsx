@@ -35,7 +35,7 @@ export default function Index() {
           setMessageIndex((prev) => (prev + 1) % about.length);
         }, 7500);
       }
-    }, 25);
+    }, 15);
 
     return () => clearInterval(scrambleInterval);
   }, [messageIndex]);
