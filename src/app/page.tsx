@@ -1,22 +1,55 @@
+"use client";
+
+import { useEffect, useState } from "react";
+
 export default function Index() {
+  const about: string[] = [
+    "I'm a student at the University of Auckland",
+    "I'm an aspiring Software Engineer",
+    "I'm probably climbing right now",
+  ];
+  const [messageIndex, setMessageIndex] = useState(0);
+  const [message, setMessage] = useState("");
+
+  const letters = "ABCDEFHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+
+  useEffect(() => {
+    let iterations = 0;
+    const target = about[messageIndex];
+    const scrambleInterval = setInterval(() => {
+      const newMessage = target
+        .split("")
+        .map((char, index) => {
+          if (char === " " || index < iterations) return char;
+          return letters.charAt(Math.floor(Math.random() * letters.length));
+        })
+        .join("");
+
+      setMessage(newMessage);
+
+      iterations += 1 / 3;
+
+      if (iterations >= target.length) {
+        clearInterval(scrambleInterval);
+        setTimeout(() => {
+          setMessageIndex((prev) => (prev + 1) % about.length);
+        }, 7500);
+      }
+    }, 15);
+
+    return () => clearInterval(scrambleInterval);
+  }, [messageIndex]);
+
   return (
     <div className="flex flex-col gap-20 md:gap-0 pt-20 md:pt-24 px-5">
       <h1 className="text-center font-bold m-0 p-0 leading-none text-[14vw] md:text-[15vw]">
         ATUL KODLA
       </h1>
-      <div className="flex flex-col h-full md:w-[50%] gap-10 md:gap-20 ml-auto justify-around">
+      <div className="flex flex-col h-full md:w-[50%] gap-10 md:gap-20 ml-auto justify-around px-5">
         <p className="text-xl">
           Hello!
           <br />
-          I'm a penultimate year Software Engineering student at the&nbsp;
-          <a
-            href="https://www.auckland.ac.nz/en.html"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="underline"
-          >
-            University of Auckland
-          </a>
+          I'm Atul and {message}
         </p>
         <div>
           <p>External Links:</p>
