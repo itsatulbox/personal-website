@@ -20,7 +20,7 @@ export default function Index() {
       const newMessage = target
         .split("")
         .map((char, index) => {
-          if (index < iterations) return char;
+          if (char === " " || index < iterations) return char;
           return letters.charAt(Math.floor(Math.random() * letters.length));
         })
         .join("");
@@ -45,7 +45,7 @@ export default function Index() {
       <h1 className="text-center font-bold m-0 p-0 leading-none text-[14vw] md:text-[15vw]">
         ATUL KODLA
       </h1>
-      <div className="flex flex-col h-full md:w-[50%] gap-10 md:gap-20 ml-auto justify-around">
+      <div className="flex flex-col h-full md:w-[50%] gap-10 md:gap-20 ml-auto justify-around px-5">
         <p className="text-xl">
           Hello!
           <br />
