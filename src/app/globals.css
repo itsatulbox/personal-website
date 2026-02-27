@@ -1,0 +1,29 @@
+@import "tailwindcss";
+
+:root {
+  --background: #ffffff;
+  --foreground: #000000;
+}
+
+.dark {
+  --background: #000000;
+  --foreground: #ffffff;
+}
+
+@theme {
+  --color-offShade: #f0f0f0;
+}
+
+.dark {
+  --color-offShade: #1d1d1d;
+}
+
+body {
+  color: var(--foreground);
+  background: var(--background);
+  font-family: var(--font-azeret);
+}
+
+h1 {
+  font-family: var(--font-figtree);
+}
