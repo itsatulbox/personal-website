@@ -49,7 +49,7 @@ export default function ScrambleText() {
   }, [messageIndex]);
 
   return (
-    <p className="text-xl h-[5.5rem]" suppressHydrationWarning>
+    <p className="text-xl h-[7.5rem] md:h-[5.5rem]" suppressHydrationWarning>
       Hello!
       <br />
       I&apos;m Atul and {message}
