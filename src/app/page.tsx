@@ -16,6 +16,7 @@ export default function Index() {
             alt="Atul on a highball"
             fill
             priority
+            placeholder="blur"
             sizes="(max-width: 768px) 100vw, 50vw"
             className="object-cover"
           />
