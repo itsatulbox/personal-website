@@ -2,8 +2,7 @@ import type { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: "About",
-  description:
-    "Learn more about Atul Kodla — Software Engineering student at the University of Auckland.",
+  description: "Learn more about Atul Kodla.",
 };
 
 export default function About() {
@@ -12,24 +11,19 @@ export default function About() {
       <h2 className="text-3xl font-bold">About Me</h2>
       <div className="leading-relaxed max-w-3xl space-y-4">
         <p>
-          I&apos;m Atul and I am currently an undergraduate student in my
-          penultimate year of a Bachelor of Engineering (Honours) degree
-          specialising in Software Engineering at the University of Auckland. At
-          university, I am building a solid foundation in software development
-          through projects via the clubs I am a part of and through the courses
-          I have enrolled in.
+          I’m Atul, a final year Software Engineering student at the University
+          of Auckland with a strong interest in systems engineering and trading
+          technology.
         </p>
         <p>
-          So far I have worked on frontend development using React and backend
-          systems with Python and Java. I have also worked on iOS development
-          using Swift and SwiftUI during my time at Alimetry! Recently,
-          I&apos;ve been motivated to do the daily LeetCode and so a blog about
-          my non-optimal approaches to these problems will be out soon.
+          I currently work part-time at a proprietary trading firm, where I have
+          built high-throughput market data pipelines. Alongside this, I’ve
+          worked across frontend, backend, and mobile development, building
+          applications using React, Python, Java, and Swift.
         </p>
         <p>
-          Outside of my studies, I climb religiously and work on my car (an
-          imolarot2 BMW E46 330i 🚗) when it has problems (currently problem
-          free!!).
+          Outside of engineering, I climb regularly and spend time working on my
+          imolarot2 BMW E46 330i 🚗 (currently not running problem-free 😢).
         </p>
       </div>
     </div>

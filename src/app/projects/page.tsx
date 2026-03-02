@@ -11,8 +11,7 @@ import finger4 from "@/assets/finger4.webp";
 
 export const metadata: Metadata = {
   title: "Projects",
-  description:
-    "Projects by Atul Kodla — including a JavaFX game with OpenAI-driven NPC dialogue and a multi-model sign language interpreter built with ResNet, AlexNet, and EfficientNet.",
+  description: "Projects by Atul Kodla.",
 };
 
 type ProjectCardProps = {
