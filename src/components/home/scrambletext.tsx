@@ -3,9 +3,9 @@
 import { useEffect, useState } from "react";
 
 const messages: string[] = [
-  "I'm a final year student at the University of Auckland",
-  "I'm an aspiring Software Engineer",
+  "I'm a part 4 SWE student at the University of Auckland",
   "I'm probably climbing right now",
+  "I'm wondering what to eat",
 ];
 
 const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
@@ -23,6 +23,7 @@ export default function ScrambleText() {
 
   useEffect(() => {
     let iterations = 0;
+    let pauseTimeout: ReturnType<typeof setTimeout>;
     const target = messages[messageIndex];
     const scrambleInterval = setInterval(() => {
       const newMessage = target
@@ -39,13 +40,16 @@ export default function ScrambleText() {
 
       if (iterations >= target.length) {
         clearInterval(scrambleInterval);
-        setTimeout(() => {
+        pauseTimeout = setTimeout(() => {
           setMessageIndex((prev) => (prev + 1) % messages.length);
         }, 7500);
       }
     }, 15);
 
-    return () => clearInterval(scrambleInterval);
+    return () => {
+      clearInterval(scrambleInterval);
+      clearTimeout(pauseTimeout);
+    };
   }, [messageIndex]);
 
   return (
