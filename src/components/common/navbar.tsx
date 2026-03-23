@@ -13,6 +13,15 @@ export default function NavBar() {
 
   useEffect(() => setMounted(true), []);
 
+  useEffect(() => {
+    if (!menuVisible) return;
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setMenuVisible(false);
+    };
+    document.addEventListener("keydown", handleKeyDown);
+    return () => document.removeEventListener("keydown", handleKeyDown);
+  }, [menuVisible]);
+
   const linkClass = (href: string) =>
     `bg-offShade p-2 m-3 rounded-lg transition-opacity ${
       pathname === href ? "opacity-100 font-semibold underline underline-offset-4" : "opacity-60 hover:opacity-100"
@@ -20,9 +29,9 @@ export default function NavBar() {
 
   return (
     <>
-      <nav className="flex items-center fixed w-full justify-between z-10 px-5 lg:px-8 xl:px-[8%] py-4">
+      <nav className="flex items-center fixed w-full justify-between z-10 px-5 lg:px-8 xl:px-[8%] py-4 pointer-events-none">
         <div className="flex-1"></div>
-        <ul className="hidden md:flex gap-6 lg:gap-8 justify-evenly">
+        <ul className="hidden md:flex gap-6 lg:gap-8 justify-evenly pointer-events-auto">
           <li>
             <Link href="/" className={linkClass("/")}>
               home
@@ -39,7 +48,7 @@ export default function NavBar() {
             </Link>
           </li>
         </ul>
-        <div className="flex-1 flex justify-end">
+        <div className="flex-1 flex justify-end pointer-events-auto">
           <button
             onClick={() =>
               setTheme(resolvedTheme === "dark" ? "light" : "dark")
