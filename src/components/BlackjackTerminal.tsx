@@ -4,9 +4,20 @@ import { useEffect, useRef } from "react";
 import { Terminal } from "@xterm/xterm";
 import { FitAddon } from "@xterm/addon-fit";
 import "@xterm/xterm/css/xterm.css";
+import { BLACKJACK_WS_URL, BLACKJACK_HEALTH_URL } from "@/lib/blackjack";
 
-const WS_URL =
-  process.env.NEXT_PUBLIC_BLACKJACK_WS_URL || "wss://blackjack-terminal.fly.dev";
+// Shown when the self-hosted machine is powered off (health check unreachable).
+// ︎ forces text presentation so every suit renders as a uniform glyph
+// (otherwise some fonts show ♥/♦ in larger emoji style).
+const OFFLINE_SCREEN = [
+  "",
+  "",
+  "  ♠︎ ♥︎ ♦︎ ♣︎",
+  "",
+  "  my machine is powered off,",
+  "  please check again later.",
+  "",
+].join("\r\n");
 
 export default function BlackjackTerminal() {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -30,10 +41,36 @@ export default function BlackjackTerminal() {
 
     let ws: WebSocket | null = null;
     let disposed = false;
+    let recheckTimer: ReturnType<typeof setTimeout> | null = null;
+
+    // Is the host reachable? The health endpoint sends CORS headers, so a
+    // successful response means the machine is up; any failure (machine off,
+    // tunnel down) rejects or returns a blocked response.
+    async function isHostUp() {
+      try {
+        const res = await fetch(BLACKJACK_HEALTH_URL, { cache: "no-store" });
+        return res.ok;
+      } catch {
+        return false;
+      }
+    }
+
+    async function checkAndConnect() {
+      if (disposed) return;
+      if (await isHostUp()) {
+        connect();
+      } else {
+        if (disposed) return;
+        term.clear();
+        term.write(OFFLINE_SCREEN);
+        // Keep checking quietly; connect as soon as the machine comes back.
+        recheckTimer = setTimeout(checkAndConnect, 15000);
+      }
+    }
 
     function connect() {
       if (disposed) return;
-      ws = new WebSocket(WS_URL);
+      ws = new WebSocket(BLACKJACK_WS_URL);
 
       ws.onopen = () => {
         term.clear();
@@ -46,28 +83,34 @@ export default function BlackjackTerminal() {
 
       ws.onclose = () => {
         if (disposed) return;
-        term.write("\r\n\x1b[90m[Game ended — press any key to restart]\x1b[0m\r\n");
         ws = null;
+        term.write(
+          "\r\n\x1b[90m[Game ended — press any key to restart]\x1b[0m\r\n"
+        );
       };
 
       ws.onerror = () => {
-        term.write("\r\n\x1b[31m[Connection error]\x1b[0m\r\n");
+        // onclose fires next; the keypress handler re-checks host health.
       };
     }
 
-    connect();
+    term.write("\x1b[90mConnecting…\x1b[0m\r\n");
+    checkAndConnect();
 
     const onDataDisposable = term.onData((data) => {
       if (ws && ws.readyState === WebSocket.OPEN) {
         ws.send(data);
       } else if (!ws) {
-        // Reconnect on any keypress after disconnect
-        connect();
+        // After a game ends (or a failed connect), re-check the host and
+        // either restart the game or show the offline screen.
+        if (recheckTimer) clearTimeout(recheckTimer);
+        checkAndConnect();
       }
     });
 
     return () => {
       disposed = true;
+      if (recheckTimer) clearTimeout(recheckTimer);
       resizeObserver.disconnect();
       onDataDisposable.dispose();
       ws?.close();
