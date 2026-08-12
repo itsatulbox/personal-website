@@ -1,0 +1,9 @@
+[Unit]
+Description=Blackjack relay health probe
+After=blackjack.service
+ConditionPathExists=/usr/local/bin/blackjack-healthcheck
+
+[Service]
+Type=oneshot
+ExecStart=/usr/local/bin/blackjack-healthcheck
+SyslogIdentifier=blackjack-watchdog

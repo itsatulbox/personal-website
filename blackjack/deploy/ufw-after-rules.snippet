@@ -1,0 +1,17 @@
+# Paste into /etc/ufw/after.rules, in the *filter block that declares
+# :DOCKER-USER, immediately after the `-j ufw-user-forward` line and BEFORE the
+# RFC1918 RETURN rules. Then `ufw reload`.
+#
+# Placement is the whole point: `-A DOCKER-USER -j RETURN -s 10.0.0.0/8` sits a
+# few lines below and would accept this subnet's egress before any later rule
+# could drop it.
+#
+# This lives here rather than only in the unit's ExecStartPre because `ufw
+# reload` rebuilds DOCKER-USER from this file, which would silently discard a
+# rule inserted by iptables at runtime -- reopening egress with nothing to show
+# for it. The unit still inserts the same rule (idempotently) so a host that has
+# not had this snippet applied yet is not left open.
+
+# The container serves a game over a websocket and never needs to originate
+# traffic. Intra-subnet is exempt so the published port's return path survives.
+-A DOCKER-USER -j DROP -s 10.201.7.0/28 ! -d 10.201.7.0/28

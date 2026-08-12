@@ -1,0 +1,21 @@
+#!/bin/sh
+# Catches the failure mode systemd cannot see: the container is up and the unit
+# is active, but the process inside stopped answering.
+set -eu
+
+URL="${BLACKJACK_HEALTH_URL:-http://127.0.0.1:8080/healthz}"
+
+# A deliberate `systemctl stop` must stay stopped.
+systemctl is-active --quiet blackjack.service || exit 0
+
+i=1
+while [ "$i" -le 3 ]; do
+  if curl -fsS --max-time 5 -o /dev/null "$URL"; then
+    exit 0
+  fi
+  sleep 3
+  i=$((i + 1))
+done
+
+logger -t blackjack-watchdog "healthz failed 3x at $URL, restarting blackjack.service"
+systemctl restart blackjack.service

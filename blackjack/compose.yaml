@@ -1,0 +1,69 @@
+name: blackjack
+
+services:
+  blackjack:
+    build:
+      context: .
+    image: blackjack-relay:local
+    container_name: blackjack
+
+    # systemd is the sole supervisor. A docker restart policy would fight it, and
+    # is weaker in two ways that matter: `unless-stopped` never resurrects a
+    # container stopped by hand, and no policy runs at all if dockerd itself was
+    # not started at boot.
+    restart: "no"
+
+    # PID 1 must reap: every session forks a game process.
+    init: true
+
+    read_only: true
+    tmpfs:
+      # The game's cwd and HOME. Nothing else in the image writes at runtime.
+      - /tmp:rw,noexec,nosuid,nodev,size=16m,mode=1777
+
+    cap_drop:
+      - ALL
+    security_opt:
+      - no-new-privileges:true
+
+    # Budget: MAX_CONNECTIONS games at a few MB each, plus node's heap. Node is
+    # capped below the cgroup limit so it GCs instead of being OOM-killed.
+    # pids_limit counts threads, so node's ~12 tasks are in this number too.
+    mem_limit: 256m
+    memswap_limit: 256m
+    cpus: "1.0"
+    pids_limit: 128
+
+    # Loopback only. The tunnel daemon is the sole ingress, and that is what
+    # makes the forwarded client-IP header in server.js trustworthy.
+    ports:
+      - "127.0.0.1:8080:8080"
+
+    environment:
+      NODE_OPTIONS: "--max-old-space-size=160"
+      ALLOWED_ORIGINS: "https://atulkodla.com,https://www.atulkodla.com"
+      MAX_CONNECTIONS: "32"
+      MAX_CONNECTIONS_PER_IP: "3"
+      IDLE_TIMEOUT_MS: "300000"
+      MAX_SESSION_MS: "1800000"
+
+    networks:
+      - edge
+
+    stop_grace_period: 10s
+
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "5"
+
+networks:
+  edge:
+    driver: bridge
+    ipam:
+      config:
+        # Fixed so the egress-drop firewall rule in blackjack.service can name
+        # it. Verify it does not overlap an existing docker network, the LAN, or
+        # any advertised route before first start.
+        - subnet: 10.201.7.0/28

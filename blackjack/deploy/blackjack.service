@@ -1,0 +1,34 @@
+[Unit]
+Description=Blackjack terminal relay (WebSocket to pty)
+Documentation=https://github.com/itsatulbox/personal-website
+Requires=docker.service
+After=docker.service network-online.target
+Wants=network-online.target
+# Never give up restarting: the default burst limit leaves the unit dead and
+# unattended after a handful of fast failures.
+StartLimitIntervalSec=0
+
+[Service]
+Type=exec
+WorkingDirectory=/opt/blackjack
+ExecStartPre=/usr/bin/docker compose --project-directory /opt/blackjack down --remove-orphans
+# The container never needs to originate traffic. Intra-subnet is left alone so
+# the published port's return path still works. Inserted at the head of the
+# chain because DOCKER-USER accepts 10.0.0.0/8 a few rules below.
+#
+# This host runs ufw-docker, so the durable copy belongs in /etc/ufw/after.rules
+# (deploy/ufw-after-rules.snippet): `ufw reload` rebuilds DOCKER-USER from that
+# file and would silently discard a rule inserted here at runtime. The insert is
+# kept as well, and is idempotent, so a host without the snippet is not left
+# open and the rule is restored on the next start after a reload.
+ExecStartPre=/bin/sh -c '/usr/sbin/iptables -C DOCKER-USER -s 10.201.7.0/28 ! -d 10.201.7.0/28 -j DROP 2>/dev/null || /usr/sbin/iptables -I DOCKER-USER -s 10.201.7.0/28 ! -d 10.201.7.0/28 -j DROP'
+ExecStart=/usr/bin/docker compose --project-directory /opt/blackjack up --abort-on-container-exit
+ExecStop=/usr/bin/docker compose --project-directory /opt/blackjack down --timeout 10
+Restart=always
+RestartSec=5s
+TimeoutStartSec=300
+TimeoutStopSec=60
+SyslogIdentifier=blackjack
+
+[Install]
+WantedBy=multi-user.target
