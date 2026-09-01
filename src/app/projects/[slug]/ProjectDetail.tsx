@@ -83,7 +83,11 @@ export default function ProjectDetail({ project }: { project: Project }) {
             <h4 className="font-bold text-lg mb-3 pb-2 border-b border-neutral-300 dark:border-neutral-700">
               Description
             </h4>
-            <p className="opacity-80 leading-relaxed">{project.description}</p>
+            <div className="opacity-80 leading-relaxed space-y-4">
+              {project.description.split("\n\n").map((para) => (
+                <p key={para}>{para}</p>
+              ))}
+            </div>
           </div>
 
           {project.links && project.links.length > 0 && (

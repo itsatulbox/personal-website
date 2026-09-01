@@ -47,11 +47,11 @@ export const projects: Project[] = [
     summary:
       "An e-commerce website for a small business selling handmade clay trinkets.",
     description:
-      "An e-commerce website built for a friend who sells handmade clay trinkets. Features product browsing, a shopping cart, and Stripe checkout integration. Built with Next.js, Supabase, TypeScript and Stripe.",
+      "An e-commerce website built for a friend who sells handmade clay trinkets. Features product browsing, a shopping cart, and Stripe checkout integration, and has processed thousands of dollars in revenue since launch. Built with Next.js, Supabase, TypeScript and Stripe.\n\nNo longer maintained by Atul.",
     tags: ["NEXT.JS", "TYPESCRIPT", "SUPABASE", "STRIPE"],
     images: [jemberry1, jemberry2, jemberry3, jemberry4],
     links: [
-      { label: "Website", url: "https://jemberry.studio" },
+      { label: "Website", url: "https://jemberry.vercel.app" },
       { label: "GitHub", url: "https://github.com/itsatulbox/jemberry" },
     ],
   },
