@@ -14,17 +14,27 @@ const azeret = Azeret_Mono({
   variable: "--font-azeret",
 });
 
+const description = "Software Engineer.";
+
 export const metadata: Metadata = {
   metadataBase: new URL("https://atulkodla.com"),
   title: {
     default: "Atul Kodla",
     template: "%s | Atul Kodla",
   },
-  description: "Software Engineering student at the University of Auckland.",
+  description,
+
+  // noarchive keeps the pages out of Bing Copilot answers and Microsoft's
+  // model training; Google ignores it (no cached-link feature any more).
+  robots: {
+    index: true,
+    follow: true,
+    noarchive: true,
+  },
 
   openGraph: {
     title: "Atul Kodla",
-    description: "Software Engineering student at the University of Auckland.",
+    description,
     url: "https://atulkodla.com",
     siteName: "Atul Kodla",
     type: "website",
@@ -33,7 +43,7 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "Atul Kodla",
-    description: "Software Engineering student at the University of Auckland.",
+    description,
   },
 
   alternates: {
@@ -52,8 +62,15 @@ export default function RootLayout({
         className={`${figtree.variable} ${azeret.variable} antialiased`}
       >
         <Providers>
-          <NavBar />
-          <main>{children}</main>
+          {/*
+            data-nosnippet stops Google using anything rendered on the page as a
+            search snippet or as input to AI Overviews / AI Mode. Search results
+            fall back to the meta description above.
+          */}
+          <div data-nosnippet="">
+            <NavBar />
+            <main>{children}</main>
+          </div>
         </Providers>
       </body>
     </html>

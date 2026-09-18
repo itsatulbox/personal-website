@@ -35,7 +35,7 @@ export default function Index() {
               >
                 LinkedIn
               </a>
-              <a href="/AtulKodlaCV.pdf" target="_blank" rel="noopener noreferrer" className="underline">
+              <a href="/AtulKodlaCV.pdf" target="_blank" rel="noopener noreferrer nofollow" className="underline">
                 Resumé
               </a>
               <a

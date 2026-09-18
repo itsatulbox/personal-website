@@ -1,8 +1,10 @@
 import type { Metadata } from "next";
+import { NO_INDEX } from "@/lib/seo";
 
 export const metadata: Metadata = {
   title: "About",
   description: "Learn more about Atul Kodla.",
+  robots: NO_INDEX,
 };
 
 export default function About() {

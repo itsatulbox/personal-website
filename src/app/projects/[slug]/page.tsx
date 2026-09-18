@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { projects } from "../data";
 import ProjectDetail from "./ProjectDetail";
+import { NO_INDEX } from "@/lib/seo";
 
 export function generateStaticParams() {
   return projects.map((project) => ({ slug: project.slug }));
@@ -18,6 +19,7 @@ export async function generateMetadata({
   return {
     title: project.title,
     description: project.summary,
+    robots: NO_INDEX,
   };
 }
 
