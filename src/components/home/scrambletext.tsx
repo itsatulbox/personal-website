@@ -3,7 +3,8 @@
 import { useEffect, useState } from "react";
 
 const messages: string[] = [
-  "I'm a part 4 SWE student at the University of Auckland",
+  "I'm a software engineer at TRV Trading",
+  "I'm a UoA Engineering graduate",
   "I'm probably climbing right now",
   "I'm wondering what to eat",
 ];
